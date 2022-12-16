@@ -10,9 +10,7 @@
     </parent>
     <groupId>love.jwf</groupId>
     <artifactId>aust-ygh</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-    <name>aust-ygh</name>
-    <description>aust-ygh</description>
+    <version>1.0.0</version>
     <properties>
         <java.version>1.8</java.version>
     </properties>
@@ -33,22 +31,26 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+
         <!--添加阿里巴巴的fastjson-->
-        <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>fastjson</artifactId>
-            <version>2.0.20</version>
-        </dependency>
+        <!--        <dependency>-->
+        <!--            <groupId>com.alibaba</groupId>-->
+        <!--            <artifactId>fastjson</artifactId>-->
+        <!--            <version>2.0.20</version>-->
+        <!--        </dependency>-->
+
         <!--添加jetty服务器-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-jetty</artifactId>
         </dependency>
+
         <!--lombok-->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
         </dependency>
+
         <!--commons-io工具库-->
         <dependency>
             <groupId>commons-io</groupId>
@@ -56,6 +58,37 @@
             <version>2.11.0</version>
         </dependency>
 
+        <!--swagger生成接口文档-->
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger2</artifactId>
+            <version>2.9.2</version>
+        </dependency>
+
+        <!--swagger的ui界面-->
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger-ui</artifactId>
+            <version>2.9.2</version>
+        </dependency>
+
+        <!--springboot 开发工具包（热部署）-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+        </dependency>
+
+        <!--apache-poi读写excel表格的依赖-->
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi</artifactId>
+            <version>4.1.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi-ooxml</artifactId>
+            <version>4.1.2</version>
+        </dependency>
 
     </dependencies>
 

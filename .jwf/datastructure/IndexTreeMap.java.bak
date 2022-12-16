@@ -1,0 +1,91 @@
+package love.jwf.common.datastructure;
+
+import love.jwf.entity.BookInfo;
+
+import java.util.Arrays;
+import java.util.List;
+
+/**
+ * 使用树表构建的索引表
+ *
+ * @author <a href="https://roozen.top">Roozen</a>
+ * @version 1.0
+ */
+@Deprecated
+public class IndexTreeMap {
+
+    List<BookInfo>[] blocks;
+    /**
+     * 根节点
+     */
+    private Node root;
+    private int sizeOfEachBlock;
+    private int countOfBlocks;
+    private int size;
+
+    public IndexTreeMap(List<BookInfo> bookInfos) {
+        size = bookInfos.size();
+        sizeOfEachBlock = (int) Math.ceil(Math.sqrt(size));
+        countOfBlocks = size / sizeOfEachBlock + 1;
+        blocks = block(bookInfos);
+        System.out.println(Arrays.toString(blocks));
+        createIndexTree();
+
+    }
+
+    /**
+     * 对原数组进行分块，使之符合分块查找的条件
+     *
+     * @param bookInfos 原数组
+     */
+    private List<BookInfo>[] block(List<BookInfo> bookInfos) {
+        bookInfos.sort((b1, b2) -> (int) (b1.getId() - b2.getId()));
+
+        List<BookInfo>[] blocks = new List[countOfBlocks];
+        for (int i = 0; i < countOfBlocks - 1; i++) {
+            blocks[i] = bookInfos.subList(i * sizeOfEachBlock, (i + 1) * sizeOfEachBlock);
+        }
+        blocks[countOfBlocks - 1] = bookInfos.subList((countOfBlocks - 1) * sizeOfEachBlock, size - 1);
+        return blocks;
+    }
+
+    public void add() {
+
+    }
+
+
+    private void createIndexTree() {
+
+    }
+
+    /**
+     * 树的节点
+     */
+    private class Node {
+        /**
+         * 最大关键字
+         */
+        private long maxKeyWord;
+
+        /**
+         * 最大关键字所在块的索引
+         */
+        private int index;
+
+        /**
+         * 左子节点
+         */
+        private Node left;
+        /**
+         * 右子节点
+         */
+        private Node right;
+
+        public Node(long maxKeyWord, int index, Node left, Node right) {
+            this.maxKeyWord = maxKeyWord;
+            this.index = index;
+            this.left = left;
+            this.right = right;
+        }
+    }
+}

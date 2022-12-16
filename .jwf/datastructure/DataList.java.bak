@@ -3,12 +3,10 @@ package love.jwf.common.datastructure;
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONReader;
-import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
-import love.jwf.entity.Book;
+import love.jwf.entity.BookInfo;
 import love.jwf.entity.User;
 import org.apache.commons.io.FileUtils;
-import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -18,22 +16,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * 数据列表类
+ * 进行文件的读写以及封装数据
  * @author <a href="https://roozen.top">Roozen</a>
  * @version 1.0
  */
 @Slf4j
-@Component
-@Data
+@Deprecated
+//@Component
 public class DataList {
-    private List<Book> books;
+    private List<BookInfo> BookInfo;
     private List<User> users;
 
     File bookFile;
     File userFile;
 
     public DataList() {
-        books = new ArrayList<>();
-        File userDirectory = FileUtils.getUserDirectory();
+        BookInfo = new ArrayList<>();
+        File userDirectory = new File(System.getProperty("user.dir"));
         File file = new File(userDirectory, ".jwf");
         if (!file.exists()) {
             file.mkdir();
@@ -78,14 +78,14 @@ public class DataList {
 
     @PostConstruct
     public void init() {
-        books = convertTo(Book.class, bookFile);
+        BookInfo = convertTo(BookInfo.class, bookFile);
         users = convertTo(User.class, userFile);
     }
 
     @PreDestroy
     public void destroy(){
         try {
-            FileUtils.writeStringToFile(bookFile,JSON.toJSONString(books),"UTF-8");
+            FileUtils.writeStringToFile(bookFile,JSON.toJSONString(BookInfo),"UTF-8");
             FileUtils.writeStringToFile(userFile,JSON.toJSONString(users),"UTF-8");
         } catch (IOException e) {
             e.printStackTrace();

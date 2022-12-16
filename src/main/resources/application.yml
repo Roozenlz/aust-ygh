@@ -1,2 +1,12 @@
 server:
   port: 80
+spring:
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher #Spring Boot 2.6.X后与Swagger有版本冲突问题,需要设置此项，否则报异常！！！
+  devtools:
+    restart:
+      enabled: true #热部署生效
+      additional-paths: src/main/java #设置重启目录
+      exclude: static/** #设置classpath目录下的WEB-INF文件夹内容修改不重启
+

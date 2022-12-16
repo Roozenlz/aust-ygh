@@ -24,9 +24,10 @@ public class R<T> {
     private T data;
 
     /**
-     * 请求结果成功时的静态泛型工厂方法
+     * 请求结果成功时的静态泛型工厂
+     *
      * @param data 数据对象
-     * @param <T> 数据类型
+     * @param <T>  数据类型
      * @return R<T> 的实例
      */
     public static <T> R<T> success(T data) {
@@ -37,7 +38,8 @@ public class R<T> {
     }
 
     /**
-     * 请求结果失败时的静态泛型工厂方法
+     * 请求结果失败时的静态泛型工厂
+     *
      * @param msg 错误信息
      * @param <T> 数据类型
      * @return R<T> 的实例
