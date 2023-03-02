@@ -2,9 +2,11 @@ package love.jwf.controller;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
 import love.jwf.common.R;
 import love.jwf.entity.BookInfo;
 import love.jwf.entity.BorrowerInfo;
+import love.jwf.entity.User;
 import love.jwf.service.BookService;
 import love.jwf.service.BorrowService;
 import love.jwf.service.UserService;
@@ -19,6 +21,7 @@ import java.time.LocalDateTime;
  * @author <a href="https://roozen.top">Roozen</a>
  * @version 1.0
  */
+@Slf4j
 @RestController
 @RequestMapping("/user")
 @CrossOrigin
@@ -35,7 +38,8 @@ public class UserController {
 
     @PostMapping("/login")
     @ApiOperation("登录")
-    public R<String> login(@RequestBody String username, @RequestBody String password) {
+    public R<String> login(@RequestBody User user) {
+        log.info("username=" + user.getUsername() + ",password=" + user.getPassword());
         return R.success("登陆成功");
     }
 
