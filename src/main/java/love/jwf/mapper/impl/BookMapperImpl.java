@@ -1,6 +1,8 @@
 package love.jwf.mapper.impl;
 
 import lombok.extern.slf4j.Slf4j;
+import love.jwf.common.algorithm.Search;
+import love.jwf.common.algorithm.Sort;
 import love.jwf.entity.BookInfo;
 import love.jwf.mapper.BookMapper;
 import org.apache.commons.io.FileUtils;
@@ -17,7 +19,6 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -151,19 +152,16 @@ public class BookMapperImpl implements BookMapper {
     @Override
     public void insert(BookInfo bookInfo) {
         bookInfos.add(bookInfo);
-        bookInfos.sort((b1, b2) -> (int) (b1.getId() - b2.getId()));
+        Sort.sortBooksById(bookInfos);
     }
 
     @Override
     public boolean delete(Long id) {
-        BookInfo bookInfo = new BookInfo();
-        bookInfo.setId(id);
-        int index = Collections.binarySearch(bookInfos, bookInfo, (b1, b2) -> (int) (b1.getId() - b2.getId()));
-        if (index >= 0 && index < bookInfos.size()) {
-            bookInfos.remove(index);
+        BookInfo bookInfo = Search.searchBookById(bookInfos, id);
+        if (bookInfo == null) {
             return true;
         }
-        return false;
+        return bookInfos.remove(bookInfo);
     }
 
     @Override
@@ -171,27 +169,25 @@ public class BookMapperImpl implements BookMapper {
         if (bookInfo == null) {
             return 0;
         }
-        int count = 0;
-        BookInfo bookInfo1 = null;
-        for (BookInfo b : bookInfos) {
-            if (b.getId().equals(bookInfo.getId())) {
-                bookInfo1 = b;
-            }
+        BookInfo bookInfoById = Search.searchBookById(bookInfos, bookInfo.getId());
+        if (bookInfoById == null) {
+            return 0;
         }
+        int count = 0;
         if (bookInfo.getName() != null && !"".equals(bookInfo.getName())) {
-            bookInfo1.setName(bookInfo.getName());
+            bookInfoById.setName(bookInfo.getName());
             count++;
         }
         if (bookInfo.getAuthor() != null && !"".equals(bookInfo.getAuthor())) {
-            bookInfo1.setAuthor(bookInfo.getAuthor());
+            bookInfoById.setAuthor(bookInfo.getAuthor());
             count++;
         }
         if (bookInfo.getStock() != null) {
-            bookInfo1.setStock(bookInfo.getStock());
+            bookInfoById.setStock(bookInfo.getStock());
             count++;
         }
         if (bookInfo.getStandingStock() != null) {
-            bookInfo1.setStandingStock(bookInfo.getStandingStock());
+            bookInfoById.setStandingStock(bookInfo.getStandingStock());
             count++;
         }
         return count;
@@ -199,12 +195,7 @@ public class BookMapperImpl implements BookMapper {
 
     @Override
     public BookInfo selectById(Long id) {
-        for (BookInfo b : bookInfos) {
-            if (b.getId().equals(id)) {
-                return b;
-            }
-        }
-        return null;
+        return Search.searchBookById(bookInfos, id);
     }
 
     @Override

@@ -40,7 +40,7 @@ public class BorrowMapperImpl implements BorrowMapper {
             try {
                 borrowerInfoFile.createNewFile();
                 log.info("borrowerInfo.xlsx文件不存在，创建文件成功！");
-                initBookFile();
+                initBorrowFile();
             } catch (IOException e) {
                 log.error("borrowerInfo.xlsx文件创建失败！");
                 e.printStackTrace();
@@ -53,7 +53,7 @@ public class BorrowMapperImpl implements BorrowMapper {
                 try {
                     borrowerInfoFile.createNewFile();
                     log.info("删除目录后创建成功！");
-                    initBookFile();
+                    initBorrowFile();
                 } catch (IOException e) {
                     log.error("borrowerInfo.xlsx文件创建失败！");
                     e.printStackTrace();
@@ -62,7 +62,7 @@ public class BorrowMapperImpl implements BorrowMapper {
         }
     }
 
-    private void initBookFile() {
+    private void initBorrowFile() {
         try (XSSFWorkbook xssfWorkbook = new XSSFWorkbook();
              FileOutputStream out = new FileOutputStream(borrowerInfoFile)) {
             XSSFSheet sheet = xssfWorkbook.createSheet();
@@ -120,7 +120,7 @@ public class BorrowMapperImpl implements BorrowMapper {
             FileUtils.copyFile(borrowerInfoFile, backFile);
             borrowerInfoFile.delete();
             borrowerInfoFile.createNewFile();
-            initBookFile();
+            initBorrowFile();
             XSSFWorkbook workbook = new XSSFWorkbook(new FileInputStream(borrowerInfoFile));
             XSSFSheet sheet = workbook.getSheetAt(0);
             XSSFCellStyle numCellStyle = workbook.createCellStyle();
@@ -213,7 +213,8 @@ public class BorrowMapperImpl implements BorrowMapper {
     public List<BorrowerInfo> selectBeyond() {
         List<BorrowerInfo> ret = new ArrayList<>();
         for (BorrowerInfo b : borrowerInfos) {
-            if (b.getBorrowDateTime().plusDays(b.getDayNumber()).isBefore(b.getBackDateTime() == null ? LocalDateTime.now() : b.getBackDateTime())) {
+            if (b.getBorrowDateTime().plusDays(b.getDayNumber()).
+                    isBefore(b.getBackDateTime() == null ? LocalDateTime.now() : b.getBackDateTime())) {
                 ret.add(b);
             }
         }

@@ -9,4 +9,9 @@ spring:
       enabled: true #热部署生效
       additional-paths: src/main/java #设置重启目录
       exclude: static/** #设置classpath目录下的WEB-INF文件夹内容修改不重启
+  banner:
+    image:
+      location: /static/assets/logo-843d2650.png
+      height: 25
+      width: 150
 

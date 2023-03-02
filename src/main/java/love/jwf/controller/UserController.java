@@ -7,6 +7,7 @@ import love.jwf.entity.BookInfo;
 import love.jwf.entity.BorrowerInfo;
 import love.jwf.service.BookService;
 import love.jwf.service.BorrowService;
+import love.jwf.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,6 +30,9 @@ public class UserController {
     @Autowired
     private BorrowService borrowService;
 
+    @Autowired
+    private UserService userService;
+
     @PostMapping("/login")
     @ApiOperation("登录")
     public R<String> login(@RequestBody String username, @RequestBody String password) {
@@ -44,12 +48,12 @@ public class UserController {
             bookInfo.setStock(count);
             bookInfo.setStandingStock(count);
             bookService.insert(bookInfo);
-            return R.success("入库成功");
+            return R.success("入库成功！");
         } else {
             bookInfo.setStock(selectById.getStock() + count);
             bookInfo.setStandingStock(selectById.getStandingStock() + count);
             bookService.update(bookInfo);
-            return R.success("入库成功，书号已存在，仅改变库存量");
+            return R.success("入库成功，书号已存在，仅改变库存量！");
         }
     }
 
@@ -58,15 +62,15 @@ public class UserController {
     public R<String> borrow(@RequestBody BorrowerInfo borrowerInfo) {
         BookInfo bookInfo = bookService.selectById(borrowerInfo.getBookId());
         if (bookInfo == null) {
-            return R.error("书籍不存在");
+            return R.error("书籍不存在！");
         }
         if (bookInfo.getStandingStock() <= 0) {
-            return R.error("书籍现存量不足");
+            return R.error("书籍现存量不足！");
         }
         bookInfo.setStandingStock(bookInfo.getStandingStock() - 1);
         borrowerInfo.setBorrowDateTime(LocalDateTime.now());
         borrowService.add(borrowerInfo);
-        return R.success("借出成功");
+        return R.success("借出成功！");
     }
 
     @PutMapping("/back/{id}")
@@ -79,7 +83,7 @@ public class UserController {
         BookInfo bookInfo = bookService.selectById(borrowerInfo.getBookId());
         bookInfo.setStandingStock(bookInfo.getStandingStock() + 1);
         borrowService.back(id);
-        return R.success("归还成功");
+        return R.success("归还成功！");
     }
 
 }

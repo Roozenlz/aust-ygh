@@ -12,7 +12,7 @@ import java.net.UnknownHostException;
 /**
  * 项目启动类
  */
-@Slf4j //启动日志
+@Slf4j //启用日志
 @SpringBootApplication
 public class AustYghApplication {
 
@@ -31,5 +31,5 @@ public class AustYghApplication {
                 "Swagger文档: \thttp://" + ip + ":" + port + path + "/swagger-ui.html\n" +
                 "----------------------------------------------------------");
     }
-
 }
+

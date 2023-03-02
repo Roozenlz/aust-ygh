@@ -20,6 +20,11 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @Configuration  //配置类
 @EnableSwagger2 //启用Swagger2功能
 public class SwaggerConfig {
+    /**
+     * 创建JavaBean
+     *
+     * @return 创建的JavaBean
+     */
     @Bean
     public Docket createRestApi() {
         return new Docket(DocumentationType.SWAGGER_2)
@@ -29,6 +34,11 @@ public class SwaggerConfig {
                 .build();
     }
 
+    /**
+     * 创建接口文档
+     *
+     * @return 创建的接口文档
+     */
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
                 .title("嘉晚饭Api接口文档")
@@ -37,5 +47,4 @@ public class SwaggerConfig {
                 .version("1.0")
                 .build();
     }
-
 }
